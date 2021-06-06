@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  
+  mosquitto:
+    image: eclipse-mosquitto:1.6
+    hostname: mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+  
+  publisher:
+    build:
+      context: .
+      dockerfile: publisher.Dockerfile
+    command: "python3 publisher.py"
+    container_name: publisher
+    depends_on:
+      - mosquitto
+    network_mode: host
+
+    
